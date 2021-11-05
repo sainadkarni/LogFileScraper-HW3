@@ -38,61 +38,29 @@ def lambda_handler(event, context):
     differential = int(timeInterval[0:2]) * 60 * 60 + int(timeInterval[3:5]) * 60 + int(timeInterval[6:8])
     lowTimeInterval = base - differential
     highTimeInterval = base + differential
+
+    def binarySearch(low, mid, high, parameter):
+        while low <= high:
+            mid = (low+high)//2
+        
+            current = int(newList[mid][0:2]) * 60 * 60 + int(newList[mid][3:5]) * 60 + int(newList[mid][6:8])
+            if (current > parameter):
+                high = mid - 1
+            elif (current < parameter):
+                low = mid + 1
+            else:
+                break
+        return mid
     
     # Binary search to find message at given time
-    low = 0
-    mid = 0
-    high = len(newList) - 1
-    
-    while low <= high:
-        mid = (low+high)//2
-        
-        current = int(newList[mid][0:2]) * 60 * 60 + int(newList[mid][3:5]) * 60 + int(newList[mid][6:8])
-        if (current > base):
-            high = mid - 1
-        elif (current < base):
-            low = mid + 1
-        else:
-            break
-    
-    listIndexAtTime = mid
-    
-    # Binary search in lower half of the list to find lower time interval of the whole input timeframe
-    low = 0
-    high = mid
-    
-    while low <= high:
-        mid = (low+high)//2
-        
-        current = int(newList[mid][0:2]) * 60 * 60 + int(newList[mid][3:5]) * 60 + int(newList[mid][6:8])
-        if (current > lowTimeInterval):
-            high = mid - 1
-        elif (current < lowTimeInterval):
-            low = mid + 1
-        else:
-            break
-    
-    listIndexAtLow = mid
-    
-    # Binary search in upper half of the list to find higher time interval of the whole input timeframe
-    low = mid
-    high = len(newList) - 1
-    
-    while low <= high:
-        mid = (low+high)//2
-        
-        current = int(newList[mid][0:2]) * 60 * 60 + int(newList[mid][3:5]) * 60 + int(newList[mid][6:8])
-        if (current > highTimeInterval):
-            high = mid - 1
-        elif (current < highTimeInterval):
-            low = mid + 1
-        else:
-            break
+    listIndexAtTime = binarySearch(0, 0, len(newList) - 1, base)
+    listIndexAtLow = binarySearch(0, 0, listIndexAtTime, lowTimeInterval)
+    listIndexAtHigh = binarySearch(listIndexAtLow, 0, len(newList) - 1, highTimeInterval)
     
     finalList = list()
 
     # Go through log messages only for the given timeframe and match with pre-compiled regex
-    for item in range(listIndexAtLow, mid + 1):
+    for item in range(listIndexAtLow, listIndexAtHigh + 1):
         
         # For a match, calculate its MD5 hash and append it to final list to be sent
         if pattern.search(newList[item]):
