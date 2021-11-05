@@ -5,7 +5,7 @@
 ## NetID: snadka2
 ## Instructions and documentation:
 
-### Detiled description in docs folder
+### Detailed description in docs folder
 
 ### Explanation video:
 
