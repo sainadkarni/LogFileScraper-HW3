@@ -5,9 +5,10 @@
 ## Project set up
 + Clone the project or download the repo in a zip format
 + Open a terminal at the root level of the any of the subdirectories
-+ To run the test cases written in the scala subdirectories,
++ To run the test cases (present in the `RESTClient` subdirectory only, for ease of execution from one place),
 
 ```
+cd RESTClient
 sbt clean compile test
 ```
 
