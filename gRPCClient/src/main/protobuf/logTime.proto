@@ -2,10 +2,12 @@ syntax = "proto3";
 
 package com.example.protos;
 
-// The greeting service definition.
+// The lambda callers service definition.
 service Checker {
-  // Sends a greeting
+  // Check if interval exists
   rpc CheckExists (TimeRequest) returns (TimeReply) {}
+
+  // Fetch messages
   rpc GetMessages (TimeRequest) returns (Messages) {}
 }
 
