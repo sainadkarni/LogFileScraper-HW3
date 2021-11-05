@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package com.example.protos;
+
+// The greeting service definition.
+service Checker {
+  // Sends a greeting
+  rpc CheckExists (TimeRequest) returns (TimeReply) {}
+  rpc GetMessages (TimeRequest) returns (Messages) {}
+}
+
+// The request message containing the time and time interval respectively
+message TimeRequest {
+  string T = 1;
+  string dT = 2;
+}
+
+// The response message containing the boolean indicating if log messages interval exists
+message TimeReply {
+  bool message = 1;
+}
+
+// The response message containing the actual MD5 hashes of the messages
+message Messages {
+  string messages = 1;
+}
